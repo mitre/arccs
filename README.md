@@ -2,7 +2,9 @@
 ARCCS Framework: AI Relevance Competence Cost Score
 
 Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3587.
+
 ©2021 The MITRE Corporation. 
+
 All rights reserved.
 
 

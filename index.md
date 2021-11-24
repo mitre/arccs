@@ -1,37 +1,17 @@
-## Welcome to GitHub Pages
+### Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3587.
+### ©2021 The MITRE Corporation.
+### All rights reserved.
 
-You can use the [editor on GitHub](https://github.com/mitre/arccs/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Abstract
+Artificial Intelligence (AI) has become increasingly prevalent in the public imagination, and as a result, a variety of commercial enterprises have begun marketing products as “AI-enabled.” However, we see that “AI” has become a marketing buzzword, and not every product claiming to be AI-enabled actually uses AI in a meaningful way. Since AI is such a broad area of study and because vendors often hesitate to share details on underlying algorithms, it is often difficult to determine the effectiveness of these implementations.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This document proposes the AI Relevance Competence Cost Score (ARCCS) framework, an evaluation methodology and metrics to assess the degree and effectiveness of the AI component of a commercially offered, AI-enabled tool. The framework guides the assessor to organize the available evidence, evaluate its strength, and determine whether a product performs as advertised in a technically relevant manner. Additionally, ARCCS serves as a guide for further investigation once such a determination is made.
 
-### Markdown
+ARCCS provides a method for any organization considering the acquisition of AI-enabled tools to make more informed, rigorous, and consistent assessments and final decisions.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- MITRE_ARCCS_MTR.pdf - This MITRE Technical Report documents the ARCCS Framework and includes all necessary instructions and scoring guidelines.
+- MITRE_ARCCS_Template.xlsx - This spreadsheet contains the scoring questions and scoring calculations. After reading the MTR, use this to conduct an assessment.
 
-```markdown
-Syntax highlighted code block
+Please send any comments or questions to: arccs@mitre.org
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mitre/arccs/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.

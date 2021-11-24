@@ -1,6 +1,6 @@
-### Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3587.
-### ©2021 The MITRE Corporation.
-### All rights reserved.
+<b>Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3587.<br>
+©2021 The MITRE Corporation.<br>
+All rights reserved.<br></b>
 
 ### Abstract
 Artificial Intelligence (AI) has become increasingly prevalent in the public imagination, and as a result, a variety of commercial enterprises have begun marketing products as “AI-enabled.” However, we see that “AI” has become a marketing buzzword, and not every product claiming to be AI-enabled actually uses AI in a meaningful way. Since AI is such a broad area of study and because vendors often hesitate to share details on underlying algorithms, it is often difficult to determine the effectiveness of these implementations.

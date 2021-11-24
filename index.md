@@ -12,6 +12,6 @@ ARCCS provides a method for any organization considering the acquisition of AI-e
 - MITRE_ARCCS_MTR.pdf - This MITRE Technical Report documents the ARCCS Framework and includes all necessary instructions and scoring guidelines.
 - MITRE_ARCCS_Template.xlsx - This spreadsheet contains the scoring questions and scoring calculations. After reading the MTR, use this to conduct an assessment.
 
-Please send any comments or questions to: arccs@mitre.org
+Please send any comments or questions to: <a href="mailto:arccs@mitre.org">arccs@mitre.org</a>
 
 

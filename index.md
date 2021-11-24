@@ -9,7 +9,7 @@ This document proposes the AI Relevance Competence Cost Score (ARCCS) framework,
 
 ARCCS provides a method for any organization considering the acquisition of AI-enabled tools to make more informed, rigorous, and consistent assessments and final decisions.
 
-- MITRE_ARCCS_MTR.pdf - This MITRE Technical Report documents the ARCCS Framework and includes all necessary instructions and scoring guidelines.
+- <a href="https://github.com/mitre/arccs/blob/main/MITRE_ARCCS_MTR.pdf">MITRE_ARCCS_MTR.pdf</a> - This MITRE Technical Report documents the ARCCS Framework and includes all necessary instructions and scoring guidelines.
 - MITRE_ARCCS_Template.xlsx - This spreadsheet contains the scoring questions and scoring calculations. After reading the MTR, use this to conduct an assessment.
 
 Please send any comments or questions to: <a href="mailto:arccs@mitre.org">arccs@mitre.org</a>

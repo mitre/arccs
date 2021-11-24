@@ -13,3 +13,4 @@ This document proposes the AI Relevance Competence Cost Score (ARCCS) framework,
     <p>
 ARCCS provides a method for any organization considering the acquisition of AI-enabled tools to make more informed, rigorous, and consistent assessments and final decisions.
 
+      <a href="mailto:arccs@mitre.org">arccs@mitre.org</a>

@@ -16,6 +16,6 @@ Please send any comments or questions to: <a href="mailto:arccs@mitre.org">arccs
 
 <p><br>
   
-![logo](./mitre_mission.png)
+![logo](mitre_mission.png)
   
 <img src="mitre_mission.png" height="100" style="height:50%;">

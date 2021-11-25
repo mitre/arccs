@@ -1,4 +1,4 @@
-<b>*Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3587*</b><br>
+<b>**Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3587**</b><br>
 <b>_©2021 The MITRE Corporation_</b><br>
 <b>_All rights reserved_<br></b>
 

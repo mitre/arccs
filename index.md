@@ -15,4 +15,7 @@ ARCCS provides a method for any organization considering the acquisition of AI-e
 Please send any comments or questions to: <a href="mailto:arccs@mitre.org">arccs@mitre.org</a>
 
 <p><br>
+  
+![logo](./mitre_mission.png)
+  
 <img src="mitre_mission.png" height="100" style="height:50%;">

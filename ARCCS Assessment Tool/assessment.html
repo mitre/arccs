@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+		<!-- Google fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300" rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+		<title>Assessment</title>
+
+		<style>
+			body {
+				font-family: 'Open Sans', sans-serif;
+				font-size: 16px;
+				font-weight: 300;
+				fill: #242424;
+				text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+				cursor: default;
+			}
+
+			.scrollspy-example-2 {
+				position: relative;
+				height: 90%;
+				overflow: auto;
+			}
+			.col-1 {
+				flex: 0 0 auto;
+				width: 25%;
+			}
+			.col-2 {
+				flex: 0 0 auto;
+				width: 75%;
+			}
+			.col-3 {
+				flex: 0 0 auto;
+				width: 3%;
+			}
+			.col-4 {
+				flex: 0 0 auto;
+				width: 5%;
+			}
+			.col-5 {
+				flex: 0 0 auto;
+				width: 92%;
+			}
+		</style>
+
+		<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
+	</head>
+	<body>
+		<div class=container> <!--master_container-->
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		        <div class="container-fluid">
+		          <a class="navbar-brand" href="https://www.mitre.org/"><img height="55" align="top" src="https://www.mitre.org/sites/default/files/images/MITRE_logo.svg"></a>
+		          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		            <span class="navbar-toggler-icon"></span>
+		          </button>
+		          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		              <li class="nav-item">
+		                <a class="nav-link" aria-current="page" href="index.html">Home</a>
+		              </li>
+		              <li class="nav-item">
+		                <a class="nav-link active" href="assessment.html">Begin Assessement</a>
+		              </li>
+		                <a class="nav-link" href="mailto:arccs@mitre.org">Contact Us</a>
+		              </li>
+		            </ul>
+		          </div>
+		        </div>
+		      </nav>
+
+		      <br>
+
+		      <h1>ARCCS - <i>AI Relevance Competence Cost Score</i></h1> 
+
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3">
+						<a class="navbar-brand" href="#">Sections</a>
+						<nav id="navbar-sections" class="nav nav-pills flex-column"></nav>
+					</nav>
+				</div>
+
+				<div class="col-2">
+					<div id="sections" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" class="scrollspy-example-2" tabindex="0">
+					</div>
+
+					<br>
+
+					<div id="submitform">
+						<button type="submit" class="btn btn-primary">Generate Report</button>
+					</div>
+				</div>
+			</div>
+				
+		</div> <!--master_container-->
+
+		<!-- Bootstrap Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+	</body>
+
+	<script src="assessment_questions.js"></script>
+
+	<script>
+		let radioid = 0
+		let commentid = 0
+
+		let templates = {
+			'sections': {'<>': 'div', 'html': [
+				{'<>': 'h2', 'id': '#item-${sectionid}', 'text': '${section}'},
+				{'<>': 'p', 'text': '${desc}'},
+				{'<>': 'div', 'html': function(obj,index){
+					return $.json2html(
+						this.subsections,
+						templates.subsections)}
+
+				}
+			]},
+			'subsections': [
+				{'<>': 'h5', 'text': '${subsection}'},
+				{'<>': 'p', 'text': '${desc}'},
+				{'<>': 'div', 
+					'style': function(obj,index){
+						if ('lis' in this) {
+							return 'padding-bottom: 20px;'
+						} else {
+							return ""
+						}
+					},
+					'html': function(obj,index){
+					if ('lis' in this) {
+						console.log(this.lis)
+						return $.json2html(
+							this.lis,
+							templates.lis)
+					} else {
+						return ""
+					}
+				}},
+				{'<>': 'div', 'html': function(obj,index){
+					if ('html' in this) {
+						return this.html
+					} else {
+						return ""
+					
+				}}},
+				{'<>': 'form', 'html': function(obj,index){
+					console.log(this.choices)
+					return $.json2html(
+						this.choices,
+						templates.choices)}
+				},
+				{'<>': 'form', 'html': [
+					{'<>': 'div', 'class': 'form-group', 'html': [
+						{'<>': 'input', 'type': 'comment', 'class': 'form-control', 'placeholder': 'Comments', 'id': function(){
+							commentid++
+							return 'formControlInput' + String(commentid)
+						}}
+					]}
+				]},
+				{'<>': 'br'}
+			],
+			'choices': [
+				{'<>': 'li', 'class': 'list-group-item', 'html': [
+					{'<>': 'div', 'class': 'form_check', 'html': [
+						{'<>': 'div', 'class': 'row', 'html': [
+							{'<>': 'div', 'class': 'col-3', 'html': [
+								{'<>': 'input', 'class': 'form-check-input me-1', 'type': 'radio', 'name': 'flexRadioDefault', 'value': '["${choice}", ${pt}]', 'id': function(){
+									radioid++
+									return 'flexRadio' + String(radioid)
+								}}
+							]},
+							{'<>': 'div', 'class': 'col-4', 'text': function(obj,index){
+								if (this.pt == '0') {
+									return 'N/A'
+								} else {
+									return '(' + this.pt + 'pt)'
+								}
+							}},
+							{'<>': 'div', 'class': 'col-5', 'text': function(obj,index){
+								if (this.choice == 'N/A') {
+									return ''
+								} else {
+									return this.choice
+								}
+							}}
+						]}
+					]}
+				]}
+			],
+			'reportsections': {'<>': 'div', 'html': [
+				{'<>': 'h4', 'text': 'Section Header'},
+				{'<>': 'p', 'text': '${desc}', 'html': function(obj,index){
+					return $.json2html(
+						this.subsections,
+						templates.reportsubsections)}
+				}
+			]},
+			'reportsubsections': [
+				{'<>': 'h5', 'text': '${subsection}'},
+				{'<>': 'p', 'text': '${selected}'},
+				{'<>': 'h6', 'text': 'Comments'},
+				{'<>': 'p', 'text': '${comment}'},
+				{'<>': 'br'}
+			],
+			'navbarsections': [
+				{'<>': 'a', 'class': 'nav-link', 'href': '#item-${sectionid}', 'text': '${section}'},
+				{'<>': 'nav', 'class': 'nav nav-pills flex-column', 'html': function(obj,index){
+					return $.json2html(
+						this.subsections,
+						templates.navbarsubsections)}
+				}
+			],
+			'navbarsubsections': {'<>': 'a', 'class': 'nav-link ms-3 my-1', 'href': '#item-${subsectionid}', 'text': '${subsection}'},
+			'lis' : {'<>': 'li', 'text': ' ${desc}'}
+		};
+
+		// let data = [
+		// 	{'sectionid': '1', 'section': 'Relevance', 'desc': 'How necessary and appropriate is the AI component?', 'subsections': [
+		// 		{'subsectionid': '1-1', 'subsection': 'Goodness of Fit', 'desc': 'Is the problem one that could benefit from AI? For example, does the AI handle volumes of data that a human couldn\'t, E.g. Anomaly Detection for network logs? Neural networks to identify complex malicious behavior in files?', 'selected': 'Selected', 'comments': 'Comments', 'choices': [
+		// 			{'pt': '0', 'choice': 'N/A'},
+		// 			{'pt': '1', 'choice': 'Approach is counter to best practice. Acedemic research, other pubications, and/or evalutator experience indicates that approach has serious flaws or is arbitrary.'},
+		// 			{'pt': '2', 'choice': 'Approach is unproven and/or hypothetical. No supporting documentation can be found, however the product can be demonstrated to do what it claims.'},
+		// 			{'pt': '3', 'choice': 'Approach has some 3rd party evidence supporting claims of functionality.'},
+		// 			{'pt': '4', 'choice': 'Approach is widely accepted and has been frequently applied in similar and/or related contexts.'},
+		// 			{'pt': '5', 'choice': 'Approach is widely accepted and has been frequently applied in the specific use cases.'}
+		// 		]},
+		// 		{'subsectionid': '1-2', 'subsection': 'Centrality of AI Component', 'desc': 'Is the AI component central to the solution such that removing it removes core functionality?', 'selected': 'Selected', 'comments': 'Comments', 'choices': [
+		// 			{'pt': '0', 'choice': 'N/A'},
+		// 			{'pt': '1', 'choice': 'ML/AI component is secondary to the operation of the system. It\'s considered \"tacked on\" and not directly relevant to the rest of the system.'},
+		// 			{'pt': '3', 'choice': 'ML/AI component is an important feature of the overall system, but isn\'t required for successful system operation.'},
+		// 			{'pt': '5', 'choice': 'ML/AI component is a keystone feature of the system.'}
+		// 		]},
+		// 		{'subsectionid': '1-3', 'subsection': 'Proportion of Overall Functionality', 'desc': 'How much of total work/functionality depends on the AI component?', 'selected': 'Selected', 'comments': 'Comments', 'choices': [
+		// 			{'pt': '0', 'choice': 'N/A'},
+		// 			{'pt': '1', 'choice': 'Component is redundant or not directly relevant to the rest of the system.'},
+		// 			{'pt': '2', 'choice': 'Component is a small proportion of overall system functionality (<25%).'},
+		// 			{'pt': '3', 'choice': 'AI component is a significant portion of overall system functionality (<50%).'},
+		// 			{'pt': '4', 'choice': 'AI component is a large portion of overall system functionality, but there are additional features that can function in its absence (>50%).'},
+		// 			{'pt': '5', 'choice': 'AI component encompasses most of the functionality of the system (excluding infrastructure e.g. data storage and transport). The system does not function properly in its absense.'}
+		// 		]},
+		// 		{'subsectionid': '1-4', 'subsection': 'Necessary vs Gratuitous AI', 'desc': 'How much of total work/functionality depends on the AI component?', 'selected': 'Selected', 'comments': 'Comments', 'choices': [
+		// 			{'pt': '0', 'choice': 'N/A'},
+		// 			{'pt': '1', 'choice': 'AI is unescessaary. It\'s functionality could be accomplished with non-AI component.'},
+		// 			{'pt': '2', 'choice': 'AI provides a slight advantage over non-AI solution.'},
+		// 			{'pt': '3', 'choice': 'AI provides a marginal improvement over a non-AI solution.'},
+		// 			{'pt': '4', 'choice': 'AI Provides a significant improvement (Accuracy, speed, etc)'},
+		// 			{'pt': '5', 'choice': 'Task couldn\'t be realistically accomplished without AI.'}
+		// 		]},
+		// 	]},
+		// ];
+			
+		
+		
+		$("#navbar-sections").json2html(data,templates.navbarsections);
+		$("#sections").json2html(data,templates.sections);
+		// $("#report").json2html(data,templates.parent);
+
+		$( '#submitform button' ).on( 'click' , function() {
+			var selected = [];
+			var comments = [];
+			$('input:checked').each(function() {
+				selected.push($(this).val());
+				//Count N/A and handle
+			});
+			$( 'input[type=comment]' ).each(function() {
+				comments.push($(this).val());
+			});
+			localStorage.setItem('selected', JSON.stringify(selected));
+			localStorage.setItem('comments', JSON.stringify(comments));
+
+			var numsubsections = 0
+
+			for (var i = 0; i < data.length; i++){
+				for (var j = 0; j < data[i]['subsections'].length; j++){
+					numsubsections++;
+				}
+			}
+
+			console.log(selected.length, numsubsections)
+
+			if (selected.length != (numsubsections)){
+				alert("Incomplete Form: There are one or more sections that have have not been scored.");
+				return
+			}
+
+			for (var i = 0; i < data.length; i++){
+				for (var j = 0; j < data[i]['subsections'].length; j++){
+					data[i]['subsections'][j]['selected'] = JSON.parse(selected.shift());
+					var comment = comments.shift()
+					if (comment === "") {
+						comment = "No comment.";
+					}
+					data[i]['subsections'][j]['comments'] = comment;
+				}
+			}
+
+			localStorage.setItem('reportdata', JSON.stringify(data));
+			location.href = "assessment_report.html";
+		});
+	</script>
+
+<!-- 	<script>
+		var selected = [];
+		var comments = [];
+		$( '#submitform button' ).on( 'click' , function() {
+			$('input:checked').each(function() {
+				selected.push($(this).val());
+			});
+			$( 'input[type=comment]' ).each(function() {
+				comments.push($(this).val());
+			});
+			localStorage.setItem('selected', JSON.stringify(selected));
+			localStorage.setItem('comments', JSON.stringify(comments));
+		});
+	</script> -->
+</html>

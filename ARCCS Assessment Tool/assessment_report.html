@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300" rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+        <!-- D3.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+
+        <title>Assessment Report</title>
+
+        <style>
+            body {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 16px;
+                font-weight: 300;
+                fill: #242424;
+                text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+                cursor: default;
+            }
+
+            .legend {
+                font-family: 'Raleway', sans-serif;
+                fill: #333333;
+            }
+            
+            .tooltip {
+                fill: #333333;
+            }
+
+            .col-3 {
+                flex: 0 0 auto;
+                width: 3%;
+            }
+
+            .col-4 {
+                flex: 0 0 auto;
+                width: 97%;
+            }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    </head>
+    <body>
+        <div class=container> <!--master_container-->
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="https://www.mitre.org/"><img height="55" align="top" src="https://www.mitre.org/sites/default/files/images/MITRE_logo.svg"></a>
+                <!-- <a class="navbar-brand" href="https://www.mitre.org/">MITRE</a> -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="assessment.html">Begin Assessement</a>
+                    </li>
+                      <a class="nav-link" href="mailto:arccs@mitre.org">Contact Us</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <br>
+
+            <div id="submitform">
+                <button type="submit" class="btn btn-primary">Save Report as PDF</button>
+            </div>
+
+            <br>
+
+            <div class="report" id="reportwrapper">
+                <h2>ARCCS - <i>AI Relevance Competence Cost Score</i> Report</h2>
+
+                <br>
+
+                <div class="chart">
+                    
+                    <div class="radarChart"></div>
+
+                </div>
+
+                <div id="scores"></div>
+
+                <br>
+                
+                <div id="report"></div>
+            </div>
+                
+        </div> <!--master_container-->
+
+        <!-- Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    </body>
+
+    <script src="radarChart.js"></script>   
+
+    <script>
+        let radioid = 0
+        let commentid = 0
+
+        let templates = {
+            'reportsections': {'<>': 'div', 'html': [
+                {'<>': 'h4', 'text': '${section}'},
+                {'<>': 'p', 'text': '${desc}', 'html': function(obj,index){
+                    return $.json2html(
+                        this.subsections,
+                        templates.reportsubsections)}
+                }
+            ]},
+            'reportsubsections': [
+                {'<>': 'h5', 'text': '${subsection}'},
+                {'<>': 'div', 'class': 'row', 'html': [
+                    {'<>': 'div', 'class': 'col-3', 'text': function(obj, index){
+                        if (this.selected[1] == 0) {
+                            return 'N/A'
+                        } else {
+                            return '('+String(this.selected[1])+'pt)'
+                        }
+                    }},
+                    {'<>': 'div', 'class': 'col-4', 'text': function(obj, index){
+                        if (this.selected[1] == 0) {
+                            return ''
+                        } else {
+                            return this.selected[0]
+                        }
+                    }}
+                ]},
+                {'<>': 'br'},
+                {'<>': 'h6', 'text': 'Comments'},
+                {'<>': 'p', 'text': '${comments}'},
+                {'<>': 'br'}
+            ],
+            'scoresection': [
+                {'<>': 'h4', 'text': function(){
+                    return 'Dimension Score: ' + String(dscore)
+                }},
+                {'<>': 'h4', 'text': function(){
+                    return 'Confidence Score: ' + String(cscore)
+                }},
+                {'<>': 'h4', 'text': function(){
+                    return 'Strength of Assessment: ' + String(str)
+                }}
+            ]
+        };
+            
+        const data = eval(localStorage.getItem('reportdata'));
+
+        let dscore = (function () {
+            var count = 0
+            var sum = 0
+            for (let i = 0; i < (data.length - 1); i++) {
+                for (j in data[i]["subsections"]) {
+                    pts = data[i]["subsections"][j]["selected"][1]
+                    if (pts == 0) {
+                        sum = sum + 0
+                        count = count + 0
+                    } else {
+                        sum = sum + pts
+                        count = count + 1
+                    }
+                }
+            }
+            return (sum / (5 * count)).toFixed(2)
+        })();
+        
+        let cscore = (function () {
+            var count = 0
+            var sum = 0
+            for (j in data[data.length-1]["subsections"]) {
+                pts = data[data.length-1]["subsections"][j]["selected"][1]
+                if (pts == 0) {
+                    sum = sum + 0
+                    count = count + 0
+                } else {
+                    sum = sum + pts
+                    count = count + 1
+                }
+            }
+            return (sum / (5 * count)).toFixed(2)
+        })();
+        
+        let str = (function () {
+            var na_count = 0
+            for (let i = 0; i < (data.length); i++) {
+                for (j in data[i]["subsections"]) {
+                    pts = data[i]["subsections"][j]["selected"][1]
+                    if (pts == 0) {
+                        na_count = na_count + 1
+                    }
+                }
+            }
+            return ((16-na_count)/16).toFixed(2)
+        })();
+
+        $("#report").json2html(data, templates.reportsections);
+        $("#scores").json2html([0], templates.scoresection);
+
+
+        /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+        /* Modified by Andrew Hand */
+        /* Found: http://bl.ocks.org/nbremer/21746a9668ffdf6d8242 */
+        /* Modified under the MIT License: https://opensource.org/licenses/MIT */
+
+        ////////////////////////////////////////////////////////////// 
+        //////////////////////// Set-Up ////////////////////////////// 
+        ////////////////////////////////////////////////////////////// 
+
+        var margin = {top: 100, right: 100, bottom: 100, left: 100},
+            width = Math.min(600, window.innerWidth - 10) - margin.left - margin.right,
+            height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+                
+        ////////////////////////////////////////////////////////////// 
+        ////////////////////////// Data ////////////////////////////// 
+        ////////////////////////////////////////////////////////////// 
+
+        var chartdata = [
+                  [
+                    {axis:"Dimension Score",value: dscore},
+                    {axis:"Confidence Score",value: cscore},
+                    {axis:"Strength of Assessment",value:0.87},
+                  ]
+                ];
+        ////////////////////////////////////////////////////////////// 
+        //////////////////// Draw the Chart ////////////////////////// 
+        ////////////////////////////////////////////////////////////// 
+
+        var color = d3.scale.ordinal()
+            .range(["#00A0B0"]);
+            
+        var radarChartOptions = {
+          w: width,
+          h: height,
+          margin: margin,
+          maxValue: 0.5,
+          levels: 10,
+          roundStrokes: true,
+          color: color
+        };
+        //Call function to draw the Radar chart
+        RadarChart(".radarChart", chartdata, radarChartOptions);
+    </script>
+
+    <script>
+        $( '#submitform button' ).on( 'click' , function() {
+            var element = document.getElementById('reportwrapper');
+            var opt = {
+                margin:       1,
+                filename:     'arrcs_report.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+                pagebreak: { mode: 'avoid-all', before: '#report'}
+            };
+            html2pdf(element, opt);
+        });
+    </script>

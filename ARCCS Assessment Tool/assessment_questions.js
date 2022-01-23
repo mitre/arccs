@@ -1,3 +1,8 @@
+//Approved for Public Release; Distribution Unlimited. Public Release Case Number 21-3696
+//©2021 The MITRE Corporation. All rights reserved.
+//McLean, VA 
+
+
 let data = [
 	{"sectionid": "1", "section": "Relevance", "desc": "How necessary and appropriate is the AI component?", "subsections": [
 		{"subsectionid": "1-1", "subsection": "Goodness of Fit", "desc": "Is the problem one that could benefit from AI? For example, does the AI handle volumes of data that a human couldn't, E.g. Anomaly Detection for network logs? Neural networks to identify complex malicious behavior in files?", "selected": "Selected", "comments": "Comments", "choices": [

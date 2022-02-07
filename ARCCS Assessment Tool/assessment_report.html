@@ -93,7 +93,7 @@ McLean, VA
             <br>
 
             <div class="report" id="reportwrapper">
-                <h2>ARCCS - <i>AI Relevance Competence Cost Score</i> Report</h2>
+                <h2><i>AI Relevance Competence Cost Score</i> Report</h2>
 
                 <br>
 
@@ -162,58 +162,78 @@ McLean, VA
                     return 'Confidence Score: ' + String(cscore)
                 }},
                 {'<>': 'h4', 'text': function(){
-                    return 'Strength of Assessment: ' + String(str)
+                    return 'Strength of Assessment: ' + String(sscore)
                 }}
             ]
         };
             
         const data = eval(localStorage.getItem('reportdata'));
 
+        // calculate dimension score
         let dscore = (function () {
-            var count = 0
-            var sum = 0
-            for (let i = 0; i < (data.length - 1); i++) {
+            var count = 0 // number questions answered (excluding NAs)
+            var sum = 0 // sum of points
+            for (let i = 0; i < (data.length - 1); i++) { // iterate over each section except condfidence
                 for (j in data[i]["subsections"]) {
                     pts = data[i]["subsections"][j]["selected"][1]
-                    if (pts == 0) {
+                    if (pts == 0) { // add 0 (i.e add nothing) to sum and count if the answer was NA
                         sum = sum + 0
                         count = count + 0
-                    } else {
+                    } else { // add the pts (1-5) to the sum and 1 to the count (excluding NAs)
                         sum = sum + pts
                         count = count + 1
                     }
                 }
             }
+            // result = the sum of points / the number of questions that where answered (excluding NAs)
             return (sum / (5 * count)).toFixed(2)
         })();
         
+        // calculate confidence score
         let cscore = (function () {
-            var count = 0
-            var sum = 0
-            for (j in data[data.length-1]["subsections"]) {
+            var count_5 = 0 // 5 point questions
+            var count_3 = 0 // number of 3 point questions answered (excluding NAs)
+            var sum = 0 // sum of points
+            for (j in data[data.length-1]["subsections"]) { // iterate over only the condfidence section
                 pts = data[data.length-1]["subsections"][j]["selected"][1]
-                if (pts == 0) {
-                    sum = sum + 0
-                    count = count + 0
+                if (j == 3) { // exception: j == 3 is the position of 'whitepapers' question which is only worth 3 points
+                    if (pts == 0) { // add 0 (i.e add nothing) to sum and count if the answer was NA
+                        sum = sum + 0
+                        count_3 = count_3 + 0
+                    } 
+                    else { // add the pts (1-3) to the sum and 1 to the count (excluding NAs)
+                        sum = sum + pts
+                        count_3 = count_3 + 1
+                    }
                 } else {
-                    sum = sum + pts
-                    count = count + 1
-                }
-            }
-            return (sum / (5 * count)).toFixed(2)
-        })();
-        
-        let str = (function () {
-            var na_count = 0
-            for (let i = 0; i < (data.length); i++) {
-                for (j in data[i]["subsections"]) {
-                    pts = data[i]["subsections"][j]["selected"][1]
-                    if (pts == 0) {
-                        na_count = na_count + 1
+                    if (pts == 0) { // add 0 (i.e add nothing) to sum and count if the answer was NA
+                        sum = sum + 0
+                        count_5 = count_5 + 0
+                    } 
+                    else { // add the pts (1-5) to the sum and 1 to the count (excluding NAs)
+                        sum = sum + pts
+                        count_5 = count_5 + 1
                     }
                 }
             }
-            return ((16-na_count)/16).toFixed(2)
+            // result = the sum of points / the total possible points of questions that where answered (excluding NAs)
+            return (sum / (5 * count_5 + 3 * count_3)).toFixed(2)
+        })();
+        
+        // calculate the strength score
+        let sscore = (function () { 
+            var na_count = 0 // number of questions answered as NA
+            var count = 0 // total number of questions
+            for (let i = 0; i < (data.length - 1); i++) { // iterate over each section except condfidence
+                for (j in data[i]["subsections"]) {
+                    pts = data[i]["subsections"][j]["selected"][1]
+                    count = count + 1 // always add 1 to count
+                    if (pts == 0) {
+                        na_count = na_count + 1 // add one to na_count if the answer was NA
+                    }
+                }
+            }
+            return ((count-na_count)/count).toFixed(2)
         })();
 
         $("#report").json2html(data, templates.reportsections);
@@ -241,7 +261,7 @@ McLean, VA
                   [
                     {axis:"Dimension Score",value: dscore},
                     {axis:"Confidence Score",value: cscore},
-                    {axis:"Strength of Assessment",value:0.87},
+                    {axis:"Strength of Assessment",value: sscore},
                   ]
                 ];
         ////////////////////////////////////////////////////////////// 

@@ -88,7 +88,7 @@ let data = [
 			{"pt": "3", "choice": "System does not track historical results, but does not require retraining."},
 			{"pt": "5", "choice": "System tracks historical results and performance in a sufficient manner to facilitate retraining."}
 		]},
-		{"subsectionid": "2-8", "subsection": "Transparency and Explainability ", "desc": "Does the system provide the ability for users to override results or provide other feedback on computational results?", "selected": "Selected", "comments": "Comments", "choices": [
+		{"subsectionid": "2-8", "subsection": "User Feedback Mechanism ", "desc": "Does the system provide the ability for users to override results or provide other feedback on computational results?", "selected": "Selected", "comments": "Comments", "choices": [
 			{"pt": "0", "choice": "N/A"},
 			{"pt": "1", "choice": "System has no facility to users to override or provide feedback on accuracy of results."},
 			{"pt": "5", "choice": "System allows user to override results and provide feedback to system on accuracy of results."}
